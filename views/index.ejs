@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Table</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h2>Create a New Table</h2>
+    <form method="POST" action="/create-table">
+        <label for="tableName"></label>
+        <input type="text" name="tableName" placeholder="Enter table name" required>
+        
+        <h3>Fields for Table</h3>
+        <div id="fields">
+            <div class="field-group">
+                <input type="text" name="fieldNames[]" placeholder="Field Name" required>
+                <select name="fieldTypes[]">
+                    <option value="VARCHAR(255)">Text</option>
+                    <option value="INT">Integer</option>
+                    <option value="FLOAT">Float</option>
+                    <option value="DATE">Date</option>
+                    <!-- Add more field types as necessary -->
+                </select>
+            </div>
+        </div>
+    
+        <button type="button" id="add-field">Add Field</button>
+        <button type="submit">Create Table</button>
+    </form>
+    <h2>Available Tables</h2>
+    <% if (tables.length > 0) { %>
+        <ul>
+            <% tables.forEach(function(table) { %>
+                <li><a href="/table/<%= table.name %>"><%= table.name %></a></li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No tables available. Please create a table.</p>
+    <% } %>
+    
+    
+    <script>
+        // JavaScript to dynamically add new fields
+        document.getElementById('add-field').addEventListener('click', function() {
+            const fieldDiv = document.createElement('div');
+            fieldDiv.classList.add('field-group');
+    
+            fieldDiv.innerHTML = `
+                <input type="text" name="fieldNames[]" placeholder="Field Name" required>
+                <select name="fieldTypes[]">
+                    <option value="VARCHAR(255)">Text</option>
+                    <option value="INT">Integer</option>
+                    <option value="FLOAT">Float</option>
+                    <option value="DATE">Date</option>
+                </select>
+            `;
+            document.getElementById('fields').appendChild(fieldDiv);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

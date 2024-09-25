@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= tableName %> Records</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Records for Table: <%= tableName %></h1>
+
+    <h2>Add Record</h2>
+    <form method="POST" action="/table/<%= tableName %>/add-record">
+        <% if (records.length > 0) { %>
+            <% Object.keys(records[0]).forEach(function(field) { %>
+                <% if (field !== 'id') { %> 
+                    <label><%= field %>:</label>
+                    <input type="text" name="<%= field %>" required>
+                    <br>
+                <% } %>
+            <% }); %>
+        <% } else { %>
+            <p>Cannot add records until the table is created and has fields.</p>
+        <% } %>
+        <button type="submit">Add Record</button>
+    </form>
+
+    <h2>Existing Records</h2>
+    <% if (records.length > 0) { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th> 
+                    <% Object.keys(records[0]).forEach(function(field) { %>
+                        <% if (field !== 'id') { %> 
+                            <th><%= field %></th>
+                        <% } %>
+                    <% }); %>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% records.forEach(function(record) { %>
+                    <tr>
+                        <td><%= record.id %></td> 
+                        <% Object.keys(record).forEach(function(field) { %>
+                            <% if (field !== 'id') { %> 
+                                <td><%= record[field] %></td>
+                            <% } %>
+                        <% }); %>
+                        <td>
+                            <form method="POST" action="/table/<%= tableName %>/delete-record/<%= record.id %>">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No records found in this table.</p>
+    <% } %>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>
